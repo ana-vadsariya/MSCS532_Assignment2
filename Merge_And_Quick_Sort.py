@@ -1,4 +1,7 @@
 import random
+import time
+from memory_profiler import memory_usage
+
 
 # Quick Sort Implementation Using Recusion
 def quick_sort(arr):
@@ -56,22 +59,75 @@ def print_array(array):
         print(array[i], end=" ")
     print()
 
-#Provided array to be sorted
-array = [1, 12, 3, 44, 5, 6]
+# Measure execution time of a function 
+def measure_time(func, arr):
+    start_time = time.time()
+    result = func(arr)
+    end_time = time.time()
+    return result, end_time - start_time
 
-#print before sorting
-print("Given Array")  
-print_array(array)
+# Measure memory usage of a function
+def measure_memory(func, arr):
+    mem_usage = memory_usage((func, (arr,)))
+    return max(mem_usage) - min(mem_usage)
 
-#perform the sorting
-quick_sorted_array = quick_sort(array)
+def test_sorting_algorithms():
+    array_sorted = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    array_reverse_sorted = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    array_random = random.sample(range(1, 10000), 1000)  
 
-print("Sorted Array using Quick Sort") 
-print_array(quick_sorted_array) 
+    #Quick Sort for sorted array
+    quick_sorted, quick_time = measure_time(quick_sort, array_sorted)
+    quick_mem = measure_memory(quick_sort, array_sorted)
+    print("Sorted Array using Quick Sort") 
+    print("Quick Sort Time:", quick_time, "seconds")
+    print("Quick Sort Memory Usage:", quick_mem, "MiB")
+    print()
+        
+    #Merge Sort for sorted array
+    merge_sorted, merge_time = measure_time(merge_sort, array_sorted)
+    merge_mem = measure_memory(merge_sort, array_sorted)
+    print("Sorted Array using Merge Sort") 
+    print("Merge Sort Time:", merge_time, "seconds")
+    print("Merge Sort Memory Usage:", merge_mem, "MiB")
+    print()
 
-merge_sorted_array = merge_sort(array)
-print("Sorted Array using Merge Sort")
-print_array(merge_sorted_array) 
+    #Quick Sort for reverse sorted array
+    quick_sorted, quick_time = measure_time(quick_sort, array_reverse_sorted)
+    quick_mem = measure_memory(quick_sort, array_reverse_sorted)
+    print("Sorted Reverse Array using Quick Sort") 
+    print("Quick Sort Time:", quick_time, "seconds")
+    print("Quick Sort Memory Usage:", quick_mem, "MiB")
+    print()
+
+
+    #Merge Sort for reverse sorted array
+    merge_sorted, quick_time = measure_time(quick_sort, array_reverse_sorted)
+    merge_mem = measure_memory(merge_sort, array_reverse_sorted)
+    print("Sorted Reverse Array using Merge Sort") 
+    print("Quick Sort Time:", quick_time, "seconds")
+    print("Quick Sort Memory Usage:", quick_mem, "MiB")
+    print()
+
+    #Quick Sort for random array
+    quick_sorted, quick_time = measure_time(quick_sort, array_random)
+    quick_mem = measure_memory(quick_sort, array_random)
+    print("Sorted Random Array of size 1000 using Quick Sort") 
+    print("Quick Sort Time:", quick_time, "seconds")
+    print("Quick Sort Memory Usage:", quick_mem, "MiB")
+    print()
+        
+    #Merge Sort for sorted array
+    merge_sorted, merge_time = measure_time(merge_sort, array_random)
+    merge_mem = measure_memory(merge_sort, array_random)
+    print("Sorted Random Array of size 1000 using Merge Sort") 
+    print("Merge Sort Time:", merge_time, "seconds")
+    print("Merge Sort Memory Usage:", merge_mem, "MiB")
+    print()
+ 
+#used for memory calculation
+if __name__ == '__main__':
+    test_sorting_algorithms()
 
 
 
